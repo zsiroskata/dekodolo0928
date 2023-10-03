@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 
 namespace dekodolo0928
@@ -8,9 +9,9 @@ namespace dekodolo0928
     {
         static void Main(string[] args)
         {
-            var karakter = new List<Karakter>();
+            var bank = new List<Karakter>();
             var sr = new StreamReader(
-                path:@"..\..\..\dekodol.txt",
+                path:@"..\..\..\bank.txt",
                 encoding: System.Text.Encoding.UTF8
                 );
             while (!sr.EndOfStream)
@@ -26,19 +27,24 @@ namespace dekodolo0928
                         m[s, o] = sor[o] == '1';
                     }
                 }
-                karakter.Add(new Karakter(b, m));
+                bank.Add(new Karakter(b, m));
             }
-            Console.WriteLine($"karakter szam {karakter.Count}");
+            Console.WriteLine($"karakter szam {bank.Count}");
             char input = ' ';
             bool res = false;
             do
             {
-                Console.WriteLine("input: ");
+                Console.Write("input: ");
                 //input = char.Parse(Console.ReadLine());
                 res = char.TryParse(Console.ReadLine(), out input);
             }while (!res || input < 65 || input > 90) ;
-
             //ascii table 
+
+            var megj = bank.SingleOrDefault(k => k.Betu == input);
+            if (megj != null) Console.WriteLine(megj.Kirajzol());
+            else Console.WriteLine("nincs ilyen");
+
+
         }
     }
 }
